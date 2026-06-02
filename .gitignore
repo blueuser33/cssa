@@ -1,0 +1,19 @@
+# Local dotfiles and tool state
+.*
+!.gitignore
+
+# Design and planning docs
+academic-survey-agent-code-framework.md
+academic-survey-agent-requirements.md
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*$py.class
+.pycache_tmp/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
