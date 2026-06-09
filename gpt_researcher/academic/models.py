@@ -18,13 +18,37 @@ class Paper:
     pdf_url: str | None = None
     doi: str | None = None
     arxiv_id: str | None = None
-    semantic_scholar_id: str | None = None
     citation_count: int | None = None
+    sections: dict[str, list[str]] = field(default_factory=dict)
+    references: list[dict[str, Any]] = field(default_factory=list)
+    citations: list[dict[str, Any]] = field(default_factory=list)
     source: str | None = None
+    source_query: str | None = None
+    source_action: str = "search"
+    depth: int = 0
+    parent_paper_id: str | None = None
+    parent_section: str | None = None
     raw: dict[str, Any] = field(default_factory=dict)
     relevance_score: float | None = None
+    selector_score: float | None = None
+    selector_reason: str | None = None
     why_relevant: str | None = None
     key_contribution: str | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass
+class PaperDiscoveryNode:
+    paper: Paper
+    child_paper_ids: dict[str, list[str]] = field(default_factory=dict)
+    extra: dict[str, Any] = field(default_factory=dict)
+
+    def add_child(self, relation: str, paper_id: str) -> None:
+        children = self.child_paper_ids.setdefault(relation, [])
+        if paper_id not in children:
+            children.append(paper_id)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

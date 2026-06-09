@@ -5,6 +5,13 @@
 # Design and planning docs
 academic-survey-agent-code-framework.md
 academic-survey-agent-requirements.md
+academic-survey-pasa-integration-analysis.md
+
+# External reference code and docs
+pasa/
+backend/
+backend copy/
+frontend/
 
 # Python generated files
 __pycache__/

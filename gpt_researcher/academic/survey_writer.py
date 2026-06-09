@@ -4,8 +4,6 @@ from __future__ import annotations
 
 import logging
 
-from gpt_researcher.utils.llm import create_chat_completion
-
 from .models import Paper, PaperSummary, TaxonomyCategory
 
 logger = logging.getLogger(__name__)
@@ -28,6 +26,8 @@ class SurveyWriter:
     ) -> str:
         prompt = self._prompt(query, papers, summaries, taxonomy, language, style)
         try:
+            from gpt_researcher.utils.llm import create_chat_completion
+
             return await create_chat_completion(
                 model=self.cfg.smart_llm_model,
                 messages=[{"role": "user", "content": prompt}],

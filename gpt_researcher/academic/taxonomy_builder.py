@@ -5,8 +5,6 @@ from __future__ import annotations
 import logging
 from collections import defaultdict
 
-from gpt_researcher.utils.llm import create_chat_completion
-
 from .models import Paper, PaperSummary, TaxonomyCategory
 from .utils import safe_json_loads, tokenize
 
@@ -29,6 +27,8 @@ class TaxonomyBuilder:
             return []
         prompt = self._prompt(query, papers, summaries)
         try:
+            from gpt_researcher.utils.llm import create_chat_completion
+
             response = await create_chat_completion(
                 model=self.cfg.smart_llm_model,
                 messages=[{"role": "user", "content": prompt}],

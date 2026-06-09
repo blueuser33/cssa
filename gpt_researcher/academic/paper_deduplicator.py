@@ -27,7 +27,6 @@ class PaperDeduplicator:
         for prefix, value in [
             ("doi", paper.doi),
             ("arxiv", paper.arxiv_id),
-            ("s2", paper.semantic_scholar_id),
         ]:
             if value:
                 return f"{prefix}:{value.lower()}"
@@ -45,8 +44,17 @@ class PaperDeduplicator:
             "pdf_url",
             "doi",
             "arxiv_id",
-            "semantic_scholar_id",
             "citation_count",
+            "sections",
+            "references",
+            "citations",
+            "source_query",
+            "source_action",
+            "depth",
+            "parent_paper_id",
+            "parent_section",
+            "selector_score",
+            "selector_reason",
         ]:
             if not getattr(primary, field_name) and getattr(secondary, field_name):
                 setattr(primary, field_name, getattr(secondary, field_name))

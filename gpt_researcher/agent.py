@@ -418,7 +418,7 @@ class GPTResearcher:
         """Run the academic survey workflow and return structured artifacts."""
         await self._log_event("research", step="academic_survey_start", details={
             "query": self.query,
-            "sources": academic_sources or ["arxiv", "semantic_scholar"],
+            "sources": ["arxiv"],
             "year_from": year_from,
             "year_to": year_to,
             "max_papers": max_papers,

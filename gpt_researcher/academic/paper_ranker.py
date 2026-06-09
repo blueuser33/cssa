@@ -26,11 +26,13 @@ class PaperRanker:
             recency_score = self._recency_score(paper.year, current_year)
             citation_score = self._citation_score(paper.citation_count, max_citations)
             bonus = self._bonus(paper)
+            selector_score = paper.selector_score if paper.selector_score is not None else semantic_similarity
 
             score = (
-                semantic_similarity * 0.55
+                selector_score * 0.35
+                + semantic_similarity * 0.25
                 + recency_score * 0.20
-                + citation_score * 0.20
+                + citation_score * 0.15
                 + bonus * 0.05
             )
             paper.relevance_score = round(score, 4)
@@ -64,7 +66,10 @@ class PaperRanker:
     def _why_relevant(query: str, paper: Paper) -> str:
         overlaps = sorted(tokenize(query) & tokenize(f"{paper.title} {paper.abstract or ''}"))
         if overlaps:
-            return f"Matches topic terms: {', '.join(overlaps[:6])}."
+            selector_note = f" Selector score: {paper.selector_score:.2f}." if paper.selector_score is not None else ""
+            return f"Matches topic terms: {', '.join(overlaps[:6])}.{selector_note}"
+        if paper.selector_reason:
+            return paper.selector_reason
         return "Selected by academic metadata and available abstract."
 
     @staticmethod

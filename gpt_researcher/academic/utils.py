@@ -13,7 +13,10 @@ def normalize_title(title: str | None) -> str:
     if not title:
         return ""
     text = title.lower()
-    text = text.translate(str.maketrans("", "", string.punctuation))
+    # Replace punctuation with spaces (not delete) so hyphenated titles match
+    # regardless of surrounding spaces: both "property-aware" and arXiv's
+    # rendered "property - aware" normalize to "property aware".
+    text = text.translate(str.maketrans(string.punctuation, " " * len(string.punctuation)))
     return re.sub(r"\s+", " ", text).strip()
 
 

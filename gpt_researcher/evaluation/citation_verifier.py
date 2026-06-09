@@ -6,7 +6,6 @@ import logging
 import re
 
 from gpt_researcher.academic.models import CitationAuditItem, Paper, PaperSummary
-from gpt_researcher.utils.llm import create_chat_completion
 
 logger = logging.getLogger(__name__)
 
@@ -88,6 +87,7 @@ Paper evidence:
 """
         try:
             from gpt_researcher.academic.utils import safe_json_loads
+            from gpt_researcher.utils.llm import create_chat_completion
 
             response = await create_chat_completion(
                 model=self.cfg.fast_llm_model,

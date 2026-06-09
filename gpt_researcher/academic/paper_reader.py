@@ -5,8 +5,6 @@ from __future__ import annotations
 import asyncio
 import logging
 
-from gpt_researcher.utils.llm import create_chat_completion
-
 from .models import Paper, PaperSummary
 from .utils import safe_json_loads
 
@@ -25,11 +23,13 @@ class PaperReader:
 
         prompt = self._prompt(paper)
         try:
+            from gpt_researcher.utils.llm import create_chat_completion
+
             response = await create_chat_completion(
                 model=self.cfg.fast_llm_model,
                 messages=[{"role": "user", "content": prompt}],
                 llm_provider=self.cfg.fast_llm_provider,
-                max_tokens=min(getattr(self.cfg, "fast_token_limit", 3000), 3000),
+                max_tokens=getattr(self.cfg, "fast_token_limit", 3000),
                 temperature=getattr(self.cfg, "temperature", 0.2),
                 llm_kwargs=getattr(self.cfg, "llm_kwargs", {}),
                 cost_callback=self.cost_callback,
