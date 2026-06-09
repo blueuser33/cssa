@@ -9,9 +9,9 @@ academic-survey-pasa-integration-analysis.md
 
 # External reference code and docs
 pasa/
-backend/
+# backend/
 backend copy/
-frontend/
+# frontend/
 
 # Python generated files
 __pycache__/
